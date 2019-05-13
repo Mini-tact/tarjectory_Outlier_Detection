@@ -1,4 +1,7 @@
 import scipy.io
+
+from 粗粒度划分 import mini_value, Coarse_grained_partition
+
 """
 FSC 2019/05/11 10:29:23
 """
@@ -8,10 +11,19 @@ def getData():
     train_data = mdict['tracks']  # TR
     train_label = mdict['truth']
     a = train_label.flatten()  # 矩阵
+    # 对粗粒度进行划分
 
-    """
-    在粗粒度上分区TR
-    """
+    c_all =[]# 存储的是所有路径粗分区的集合和精细分区
+    for item in train_data:
+        C = []
+        C.append(Coarse_grained_partition(item,mini_value(item)))
+        C.append(item)
+        c_all.append(C)
+
+    return c_all
+
+
+
 
     # x = []  # 保存训练数据
     # y = []  # 保存标签

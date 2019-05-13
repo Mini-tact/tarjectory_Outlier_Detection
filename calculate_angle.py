@@ -41,3 +41,6 @@ class Calculate(object):
 
     def cos(self):
         return self.vm/self.len
+
+    def angle(self):
+        math.acos(self.cos())
