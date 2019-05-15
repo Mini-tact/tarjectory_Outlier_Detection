@@ -19,8 +19,8 @@ class Point(object):
 
 class Calculate(object):
     def __init__(self, l1s, l1e, l2s, l2e):
-        self.l1s = l1s
-        self.l1e = l1e
+        self.l1s = l1s  # 直线1开始坐标
+        self.l1e = l1e  # 直线1的结束坐标
         self.l2s = l2s
         self.l2e = l2e
 
@@ -30,17 +30,17 @@ class Calculate(object):
         矢量乘法
         :return:
         """
-        l1_vector = Point(self.l1s[0], self.l1e[1], self.l1e[0], self.l1e[1]).vector().vector()
-        l2_vector = Point(self.l2s[0], self.l2e[1], self.l2e[0], self.l2e[1]).vector().vector()
-        self.vm = np.dot(l1_vector, l2_vector)
+        l1_vector = Point(self.l1s[0], self.l1s[1], self.l1e[0], self.l1e[1]).vector()
+        l2_vector = Point(self.l2s[0], self.l2s[1], self.l2e[0], self.l2e[1]).vector()
+        return np.dot(l1_vector, l2_vector)
 
     def the_product_of_mold(self):
-        l1_len = Point(self.l1s[0], self.l1e[1], self.l1e[0], self.l1e[1]).vector().length()
-        l2_len = Point(self.l2s[0], self.l2e[1], self.l2e[0], self.l2e[1]).vector().length()
-        self.len = l1_len*l2_len
+        l1_len = Point(self.l1s[0], self.l1s[1], self.l1e[0], self.l1e[1]).length()
+        l2_len = Point(self.l2s[0], self.l2s[1], self.l2e[0], self.l2e[1]).length()
+        return l1_len*l2_len
 
     def cos(self):
-        return self.vm/self.len
+        return self.Vector_multiplication()/self.the_product_of_mold()
 
     def angle(self):
         math.acos(self.cos())

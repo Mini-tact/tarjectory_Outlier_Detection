@@ -9,40 +9,20 @@ def getData():
     f = open('cross.mat', 'rb')
     mdict = scipy.io.loadmat(f)
     train_data = mdict['tracks']  # TR
-    train_label = mdict['truth']
-    a = train_label.flatten()  # 矩阵
-    # 对粗粒度进行划分
+    # 对数据存储形式进行改变，形式为；每条轨迹，每条轨迹点的横纵坐标
+    tarjectorise = []
+    for tarjectory in train_data:  # 改变存储方式
+        tj = []
+        for x, y in zip(tarjectory[0][0], tarjectory[0][1]):
+            tj.append([x, y])
+        tarjectorise.append(tj)
 
-    c_all =[]# 存储的是所有路径粗分区的集合和精细分区
-    for item in train_data:
+    # 对粗粒度进行划分
+    c_all = []  # 存储的是所有路径粗分区的集合和精细分区
+    for item in tarjectorise:
         C = []
-        C.append(Coarse_grained_partition(item,mini_value(item)))
+        C.append(Coarse_grained_partition(item, mini_value(item)))
         C.append(item)
         c_all.append(C)
 
     return c_all
-
-
-
-
-    # x = []  # 保存训练数据
-    # y = []  # 保存标签
-    # for i in range(len(train_label)):
-    #     if a[i] == 1 or a[i] == 8 or a[i] == 9 or a[i] == 5:
-    #         x.append(train_data[i])
-    #         y.append(a[i])
-    # for i in range(len(y)):
-    #     if y[i] == 1:
-    #         y[i] = -1
-    #     else:
-    #         y[i] = 1
-    #
-    # data = []
-    # for i in range(len(x)):
-    #     point = []
-    #     for j in range(len(x[i][0][0])):
-    #         point.append([x[i][0][0][j], x[i][0][1][j]])
-    #     data.append(point)
-    #
-    # return data  # 保存数据
-

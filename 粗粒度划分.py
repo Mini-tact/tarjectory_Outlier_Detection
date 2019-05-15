@@ -9,31 +9,32 @@ def LDH(fine, coarse):
     :param coarse:
     :return:
     """
-    for i in range(len(fine))-1:
-        perp = distance_between_T_Partitions(coarse[0], coarse[1], fine[i], fine[i+1]).perpendicular()
-        angle = distance_between_T_Partitions(coarse[0], coarse[1], fine[i], fine[i+1]).angle_distance()
-        return math.log(perp, 2)+math.log(angle, 2)
+    sum = 0.0  # L(D|H)的值
+    for i in range(len(fine)):
+        perp = abs(distance_between_T_Partitions(coarse[0], coarse[1], fine[i][0], fine[i][1]).perpendicular())
+        angle = distance_between_T_Partitions(coarse[0], coarse[1], fine[i][0], fine[i][1]).angle_distance()
+        sum += math.log(perp, 2) + math.log(angle, 2)
+    return sum
 
 def sum_all(fine, coarse):
     sum_value = 0.0
     fine_partition = []
-    for c in len(coarse)-1:
+    for c in range(len(coarse)-1):
         coarse_partition = [coarse[c], coarse[c+1]]
         """
         在确定粗端点后寻找对应的精细分区
         """
-        for i, f in enumerate(fine):
-            if f == coarse_partition[0]:  # 寻找粗线段对应的精细分区的开始端点
-                flag = i  # 记录开始端点进行
-            else:
-                if f == coarse_partition[1]:  # 寻找结束端点
-                    fine_partition.append(f)
-                    continue
-                else:
-                    fine_partition.append(f)
-            LH  = i - flag  # 计算精细化分区的长度
-            LDH = LDH(fine_partition, coarse_partition)
-        sum_value = sum_value + LH + LDH
+        s = fine.index(coarse_partition[0])
+        e = fine.index(coarse_partition[1])
+
+        LH_value = abs(e - s)  # 计算精细化分区的长度
+        # 构建精细线段
+
+        for i in range(LH_value):
+            fine_partition.append([fine[s:e+1][i], fine[s:e+1][i+1]])
+
+        LDH_value = LDH(fine_partition, coarse_partition)
+        sum_value = sum_value + LH_value + LDH_value
     return sum_value
 
 def Coarse_grained_partition(data, partition):
@@ -43,19 +44,20 @@ def Coarse_grained_partition(data, partition):
     :param partition:粗粒度划分标准对于等于1
     :return:
     """
+    partition = int(partition)
     # 对线进行划分：等距离取点
-    coarse=[]
-    for item in range(math.floor(len(data)/partition)):
-        coarse.append(data[item])
+    coarse = []
+    for item in range(math.floor(len(data)/partition)):  # math.floor 向下取整
+        coarse.append(data[item*partition])
 
-    if len(data)/partition != 0 :
-        coarse.append(data[len(data)])
+    if len(data) % partition != 0:
+        coarse.append(data[len(data)-1])
 
     return coarse
 
 def mini_value(data):
     greedy_array = []
-    for i in np.linspace(1, len(data)-1 ,len(data)-2):
+    for i in np.linspace(2, len(data)-1, len(data)-2):
         coarse = Coarse_grained_partition(data, i)  # 获取粗粒度分区
         greedy_array.append(sum_all(data, coarse))  #将最小值放入数组排序
     greedy_array.sort(reverse=False)
