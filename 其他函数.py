@@ -10,7 +10,10 @@ class computer_point():
         :return: 返回K和截距
         """
         # 计算斜率
-        k = (self.s[0] - self.e[0])/(self.s[1] - self.e[1])
+        if self.s[1] - self.e[1] == 0.0:  # 与x轴平行
+            k = 0
+        else:
+            k = (self.s[0] - self.e[0])/(self.s[1] - self.e[1])
         # 计算截距
         b = self.e[0]-k*self.s[0]
         return k, b
@@ -26,7 +29,7 @@ class computer_point():
 
     def Perpendicular_to_a_point(self, point):
         # 计算直线方程
-        k, b = self.define_a_line
+        k, b = self.define_a_line()
         # 计算过某点的垂线
         k = -1/k
         b = point[1] - k*point[0]

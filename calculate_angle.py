@@ -40,9 +40,12 @@ class Calculate(object):
         return l1_len*l2_len
 
     def cos(self):
-        # if self.the_product_of_mold() == 0.0:
-        #     print("被除数不能为0")
-        return self.Vector_multiplication()/self.the_product_of_mold()
+        if self.the_product_of_mold() == 0.0:
+            print("被除数不能为0")
+        cos = self.Vector_multiplication()/self.the_product_of_mold()
+        if cos < 0:  # 求互余角
+            cos = - math.sqrt(1-math.pow(cos, 2))
+        return cos
 
     def angle(self):
         math.acos(self.cos())

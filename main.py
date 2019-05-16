@@ -2,9 +2,10 @@
 轨迹异常值检测
 """
 import math
-from table_1 import dist, adj, Ofrac
+from table_1 import dist, adj, Ofrac, CTR
 from 细粒度划分 import lower_bounds_dist, upper_bounds_dist
 from 读取数据 import getData
+
 
 if __name__ == "__main__":
     """
@@ -52,22 +53,29 @@ if __name__ == "__main__":
                         CL_j.append(l_i)
 
                     else:
-                        # Every pair of fine t-partitions is compared
-                        for l_i in CL_i:
-                            for l_j in CL_j:
+                        print("----------------------------Every pair of fine t-partitions is compared------------------------------")
+                        """
+                        计算的为每个粗分区对应的细分区的所有点
+                        """
+                        array_1 = item[1][item[0].index(L_i[0]):(item[0].index(L_i[1]) + 1)]  # 点坐标
+                        array_2 = item[1][item[0].index(L_j[0]):(item[0].index(L_j[1]) + 1)]
+                        for i in range(len(array_1) - 1):
+                            l_i = [array_1[i], array_1[i + 1]]  # 取粗线段中的线段
+                            for j in range(len(array_2) - 1):
+                                l_j = [array_2[j], array_2[j + 1]]  # 取粗线段中的线段
                                 # 计算dist(l_i, l_j)
                                 if dist(l_i, l_j) <= D:
-                                    print(l_i, l_j)
                                     CL_i.append(l_j)   # insert l_i into CL(l_j) and l_j into CL(l_i)
                                     CL_j.append(l_i)
     """
     Detection Phase
     F 表示精细划分数据集
     """
+    print("----------------------------detection------------------------------")
     F = data[1]  # data[1]中存储的为精细分区数据集
     for TR_i in F:
         for l_i in TR_i:
-            if dist(l_i)*adj(l_i) <= math.floor((1-p)): # 判断是否为异常值
+            if math.ceil(CTR(TR_i, L_j, L_i, D)*adj(l_i)) <= math.ceil((1-p)*len(TR_i)):  # 判断是否为异常值
                 outlying.append(l_i)
 
     for TR_i in data[1]:

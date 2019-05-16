@@ -1,4 +1,5 @@
 import scipy.io
+import numpy as np
 
 from 粗粒度划分 import mini_value, Coarse_grained_partition
 
@@ -25,4 +26,4 @@ def getData():
         C.append(item)
         c_all.append(C)
 
-    return c_all
+    return np.array(c_all)

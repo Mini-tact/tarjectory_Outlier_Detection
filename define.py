@@ -61,8 +61,6 @@ class distance_between_T_Partitions():
         """
         L_j = Point(self.s_j[0], self.s_j[1], self.e_j[0], self.e_j[1]).length()
         angle = Calculate(self.s_i, self.e_i, self.s_j, self.e_j).cos()
-        print(angle)
-        print(L_j)
         if angle > 0:
             # 角度在0~90之间
             return L_j*math.sqrt(1-math.pow(angle, 2))  # ||L_j*sin||
