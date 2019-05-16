@@ -93,7 +93,7 @@ def lower_bounds_parael(L_i, L_j):
     if judge == "enclose" or judge == "overlap":
         return 0
     elif judge == "disjoint":
-        return distance_between_T_Partitions(L_i[0][0], L_i[0][1], L_i[1][0], L_i[1][1]).paraller()
+        return distance_between_T_Partitions(L_i[0], L_i[1], L_j[0], L_j[1]).paraller()
     else:
         print("note:error")
 
@@ -107,27 +107,26 @@ def upper_bounds_parael(L_i, L_j):
             return len(L_j)
 
     elif judge == "overlap":
-        return len(L_j) + len(L_j) - distance_between_T_Partitions(L_i[0][0], L_i[0][1], L_i[1][0],
-                                                                   L_i[1][1]).paraller()
+        return len(L_j) + len(L_j) - distance_between_T_Partitions(L_i[0], L_i[1], L_j[0], L_j[1]).paraller()
     elif judge == "disjoint":
-        return len(L_j) + len(L_j) + distance_between_T_Partitions(L_i[0][0], L_i[0][1], L_i[1][0],                                                            L_i[1][1]).paraller()
+        return len(L_j) + len(L_j) + distance_between_T_Partitions(L_i[0], L_i[1], L_j[0], L_j[1]).paraller()
     else:
         print("note:error")
 
 
 def lower_bounds_angle(L_i, L_j, fine):
     if minlen(L_i, fine) > minlen(L_j, fine):
-        minlen(L_j, fine) * math.sin(
-            Calculate(L_i[0][0], L_i[0][1], L_i[1][0], L_i[1][1]).cos() - max_angle(L_i, fine) - max_angle(L_j, fine))
+        return minlen(L_j, fine) * math.sin(
+            Calculate(L_i[0], L_i[1], L_j[0], L_j[1]).cos() - max_angle(L_i, fine) - max_angle(L_j, fine))
     else:
-        minlen(L_i, fine) * math.sin(
-            Calculate(L_i[0][0], L_i[0][1], L_i[1][0], L_i[1][1]).cos() - max_angle(L_i, fine) - max_angle(L_j, fine))
+        return minlen(L_i, fine) * math.sin(
+            Calculate(L_i[0], L_i[1], L_j[0], L_j[1]).cos() - max_angle(L_i, fine) - max_angle(L_j, fine))
 
 
 def upper_bounds_angle(L_i, L_j, fine):
     if minlen(L_i, fine) > minlen(L_j, fine):
-        minlen(L_j, fine) * math.sin(
-            Calculate(L_i[0][0], L_i[0][1], L_i[1][0], L_i[1][1]).cos() + max_angle(L_i, fine) + max_angle(L_j, fine))
+        return minlen(L_j, fine) * math.sin(
+            Calculate(L_i[0], L_i[1], L_j[0], L_j[1]).cos() + max_angle(L_i, fine) + max_angle(L_j, fine))
     else:
-        minlen(L_i, fine) * math.sin(
-            Calculate(L_i[0][0], L_i[0][1], L_i[1][0], L_i[1][1]).cos() + max_angle(L_i, fine) + max_angle(L_j, fine))
+        return minlen(L_i, fine) * math.sin(
+            Calculate(L_i[0], L_i[1], L_j[0], L_j[1]).cos() + max_angle(L_i, fine) + max_angle(L_j, fine))

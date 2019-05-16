@@ -8,7 +8,7 @@ def dist(L_i, L_j):
     weight_vectical = 1/3  # 垂直的权重、
     weight_parael = 1 / 3
     weight_angle = 1 / 3
-    return dbtp.perpendicular()*weight_vectical*dbtp.paraller()*weight_parael+dbtp.angle_distance()*weight_angle
+    return dbtp.perpendicular()*weight_vectical+dbtp.paraller()*weight_parael+dbtp.angle_distance()*weight_angle
 
 def CP(TR_i, L_j, D):
     """

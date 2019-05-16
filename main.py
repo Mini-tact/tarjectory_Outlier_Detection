@@ -37,19 +37,27 @@ if __name__ == "__main__":
                         pass
                     # relu 2
                     if upper_bounds_dist(L_i, L_j, item[1]) <= D:
-                        # 进入此循环，则说明L_i和L_j相互靠近，将他们的精细分区分别存入数据集中
-                        fine_partition_part = item[item.index(L_i[0]), item.index(L_i[1]) + 1]
-                        fine_partition_part = item[item.index(L_j[0]), item.index(L_j[1]) + 1]
-                        CL_i.append(L_j)
-                        CL_j.append(L_i)
+                        """
+                        进入此循环，则说明L_i和L_j相互靠近，将他们的精细分区分别存入数据集中
+                        CL（l_i）holds the t-partitions close to l_i
+                        所有l_i属于L_i and l_j属于L_j
+                        Insert l_i into CL(l_j) and l_j into CL(l_i)
+                        
+                        item[0] 存储的粗划分
+                        item[1] 存储的是细化分
+                        """
+                        l_i = item[1][item[0].index(L_i[0]):item[0].index(L_i[1]) + 1]
+                        l_j = item[1][item[0].index(L_j[0]):item[0].index(L_j[1]) + 1]
+                        CL_i.append(l_j)
+                        CL_j.append(l_i)
+
                     else:
                         # Every pair of fine t-partitions is compared
-                        for i in len(CL_i)-1:
-                            l_i = [CL_i[i], CL_i[i+1]]  # 注意Cl_i中存储的为点，应构建一个线段
-                            for j in len(CL_j)-1:
-                                l_j = [CL_j[j], CL_j[i+1]]
+                        for l_i in CL_i:
+                            for l_j in CL_j:
                                 # 计算dist(l_i, l_j)
                                 if dist(l_i, l_j) <= D:
+                                    print(l_i, l_j)
                                     CL_i.append(l_j)   # insert l_i into CL(l_j) and l_j into CL(l_i)
                                     CL_j.append(l_i)
     """

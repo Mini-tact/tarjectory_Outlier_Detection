@@ -50,8 +50,9 @@ def Coarse_grained_partition(data, partition):
     for item in range(math.floor(len(data)/partition)):  # math.floor 向下取整
         coarse.append(data[item*partition])
 
-    if len(data) % partition != 0:
-        coarse.append(data[len(data)-1])
+    # 不计算最后的点
+    # if len(data) % partition != 0:
+    #     coarse.append(data[len(data)-1])
 
     return coarse
 

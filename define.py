@@ -40,24 +40,19 @@ class distance_between_T_Partitions():
         #computer_point(self.s_i, self.e_i).Perpendicular_to_a_point(self.s_j)  # 计算s_j在Li上的垂线
         #computer_point(self.s_i, self.e_i).Perpendicular_to_a_point(self.e_j)  # 计算e_j在Li上的垂线
         # cosa*对边等于 映射点到点的距离
-        s_j_cos_ei =Calculate(self.e_i, self.s_j, self.e_i, self.s_i).cos()*Point(self.e_i, self.s_j).length()
-        s_j_cos_si = Calculate(self.s_i, self.s_j, self.s_i, self.s_i).cos() * Point(self.s_i, self.s_j).length()
 
-        e_j_cos_ei =Calculate(self.e_i, self.e_j, self.e_i, self.s_i).cos()*Point(self.e_i, self.e_j).length()
-        e_j_cos_si = Calculate(self.s_i, self.e_j, self.s_i, self.s_i).cos() * Point(self.s_i, self.e_j).length()
+        # L_i[0], L_i[1], L_j[0], L_j[1]
+        #Calculate(L_i[0], L_i[1], L_j[0], L_j[1]).cos()
+        #s_j_cos_ei = Calculate(self.e_i, self.s_j, self.e_i, self.s_i).cos()*Point(self.e_i[0], self.e_i[1], self.s_j[0],self.s_j[1]).length()
+        s_j_cos_si = Calculate(self.s_i, self.s_j, self.s_i, self.e_i).cos() * Point(self.s_i[0], self.s_i[1],self.s_j[0], self.s_i[1]).length()
 
-        min = s_j_cos_ei
+        e_j_cos_ei = Calculate(self.e_i, self.e_j, self.e_i, self.s_i).cos()*Point(self.e_i[0], self.e_i[1], self.e_j[0],self.e_j[1]).length()
+        #e_j_cos_si = Calculate(self.s_i, self.e_j, self.s_i, self.s_i).cos() * Point(self.s_i[0], self.s_i[1],self.e_j[0],self.s_i[1]).length()
 
-        if s_j_cos_si < min:
-            min=s_j_cos_si
-
-        if e_j_cos_ei < min:
-            min=e_j_cos_ei
-
-        if e_j_cos_si < min:
-            min = e_j_cos_si
-
-        return min
+        if s_j_cos_si > e_j_cos_ei:
+            return e_j_cos_ei
+        else:
+            return s_j_cos_si
 
     def angle_distance(self):
         """
@@ -66,7 +61,8 @@ class distance_between_T_Partitions():
         """
         L_j = Point(self.s_j[0], self.s_j[1], self.e_j[0], self.e_j[1]).length()
         angle = Calculate(self.s_i, self.e_i, self.s_j, self.e_j).cos()
-
+        print(angle)
+        print(L_j)
         if angle > 0:
             # 角度在0~90之间
             return L_j*math.sqrt(1-math.pow(angle, 2))  # ||L_j*sin||
