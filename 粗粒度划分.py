@@ -59,9 +59,13 @@ def mini_value(data):
     greedy_array = []
     for i in np.linspace(2, len(data)-1, len(data)-2):
         coarse = Coarse_grained_partition(data, i)  # 获取粗粒度分区
-        greedy_array.append(sum_all(data, coarse))  #将最小值放入数组排序
-    greedy_array.sort(reverse=False)
-    return greedy_array[0]
+        sum_value = sum_all(data, coarse)
+        greedy_array.append(sum_value)  # 将最小值放入数组排序
+
+    index = greedy_array.index(min(greedy_array))
+
+
+    return Coarse_grained_partition(data, index)  # 返回最小化L(H)+L(D|H)的值对应的粗划分集合
 
 
 

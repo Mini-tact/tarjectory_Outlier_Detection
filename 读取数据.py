@@ -19,9 +19,9 @@ def getData():
 
     # 对粗粒度进行划分
     c_all = []  # 存储的是所有路径粗分区的集合和精细分区
-    for item in tarjectorise:
-        C = []
-        C.append(Coarse_grained_partition(item, mini_value(item)))
+    for item in tarjectorise:  # 对路径信息进行遍历
+        C = []  # 存放粗路径和精细路径的数组
+        C.append(mini_value(item))  # 计算最优化的粗路径
         C.append(item)
         c_all.append(C)
 

@@ -23,11 +23,11 @@ if __name__ == "__main__":
     # 在粗糙路径数据集中两两配对寻找边缘路径
     for item in data:
         for i in range(len(item[0])-1):
-            L_i = [item[i], item[i+1]]  # 取粗线段中的线段
-            for j in item[0]:
-                L_j = [item[j], item[j + 1]]  # 取粗线段中的线段
-                if L_i == L_j: # 寻找两个data几何中不相同的两条路径 L_i_l,L_j_l中存放的是粗线段的片段和对应的精细化片段
-                    continue
+            L_i = [item[0][i], item[0][i + 1]]  # 取粗线段中的线段
+            for j in range(len(item[0])-1):
+                L_j = [item[0][j], item[0][j + 1]]  # 取粗线段中的线段
+                if (L_i[0] == L_j[0]) and L_i[1] == L_j[1]:  # 寻找两个data几何中不相同的两条路径 L_i_l,L_j_l中存放的是粗线段的片段和对应的精细化片段
+                    pass
                 else:
                     # relu 1
                     if lower_bounds_dist(L_i, L_j, item[1]) > D:
