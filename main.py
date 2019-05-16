@@ -22,6 +22,7 @@ if __name__ == "__main__":
     # 数据划分
     data = getData()
     # 在粗糙路径数据集中两两配对寻找边缘路径
+    print("---------------------------------数据读取完成，进入划分模块---------------------------------")
     for item in data:
         for i in range(len(item[0])-1):
             L_i = [item[0][i], item[0][i + 1]]  # 取粗线段中的线段
@@ -53,7 +54,6 @@ if __name__ == "__main__":
                         CL_j.append(l_i)
 
                     else:
-                        print("----------------------------Every pair of fine t-partitions is compared------------------------------")
                         """
                         计算的为每个粗分区对应的细分区的所有点
                         """
