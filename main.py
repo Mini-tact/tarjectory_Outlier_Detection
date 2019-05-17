@@ -72,12 +72,16 @@ if __name__ == "__main__":
     F 表示精细划分数据集
     """
     print("----------------------------detection------------------------------")
-    F = data[1]  # data[1]中存储的为精细分区数据集
-    for TR_i in F:
-        for l_i in TR_i:
-            if math.ceil(CTR(TR_i, L_j, L_i, D)*adj(l_i)) <= math.ceil((1-p)*len(TR_i)):  # 判断是否为异常值
-                outlying.append(l_i)
+    # count math.ceil(CTR(l_i,D))by using CL_i
+    F = data[1]  # the set of fine t-partition
+    for l_i in F:
+        # count CRT(l_i,D)
+        crt_value = abs(CTR(l_i, D))
+        # judge
+        if math.ceil(crt_value*adj(l_i)) <= math.ceil((1-p)*len(l_i)):  # 判断是否为异常值
+            outlying.append(l_i)
 
+    # Output TR_i with its outlying fine t-partitions:
     for TR_i in data[1]:
         if Ofrac(TR_i) >= F:
             outlying_fine.append(TR_i)

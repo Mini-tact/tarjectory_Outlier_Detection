@@ -10,6 +10,10 @@
 # plt.plot(x_1, y_1)
 # plt.show()
 import math
+#
+# angle = 1.0
+# print(math.sqrt(1-math.pow(angle, 2)))
 
-angle = 1.0
-print(math.sqrt(1-math.pow(angle, 2)))
+list1=[11,22,11,22,33,44,55,55,66]
+print(list1)
+print(list(set(list1)))
