@@ -86,11 +86,22 @@ class table_2():
         return density_j / self.density(L_i)
 
     def OP(self,TR_i, D = 55, p = 0.95):
+        set = []  # 存储TR_i中小于距离D分区的集合
 
-        return 0
+        for i in range(len(TR_i) - 1):
+            L_i = [TR_i[0][i], TR_i[0][i + 1]]  # 取粗线段中的线段
+            if self.dist(L_i, L_j) >= D:
+                set.append(L_i)
+        return set
 
-    def Ofrac(self,L_i):
 
-        return 0
+    def Ofrac(self, TR_i):
+        sum=0.0
+        for item in self.OP(TR_i, D=55, p=0.95):
+            sum += Point(item[0][0], item[0][1], item[1][0], item[1][1]).length()
+        sum_2 = 0.0
+        for item in TR_i:
+             sum += Point(item[0][0], item[0][1], item[1][0], item[1][1]).length()
+        return sum/sum_2
 
 
