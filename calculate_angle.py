@@ -38,8 +38,10 @@ class Calculate(object):
         l1_len = Point(self.l1s[0], self.l1s[1], self.l1e[0], self.l1e[1]).length()
         l2_len = Point(self.l2s[0], self.l2s[1], self.l2e[0], self.l2e[1]).length()
         if l1_len == 0.0:
+            print(self.l1s+self.l1e)
             print('the length of l1_len is zero')
         elif l2_len == 0.0:
+            print(self.l2s+self.l2e)
             print('the length of l2_len is zero')
         else:
             pass

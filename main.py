@@ -16,17 +16,18 @@ if __name__ == "__main__":
     D = 55
     p = 0.95
     F = 0.2
-    CL_i = []  # 存放的是一个片段，不是一个点
-    CL_j = []
+    CL_i = {}  # 存放的是一个片段，不是一个点
+    CL_j = {}
     outlying = []  # 存放异常值
     outlying_fine = []  # 存放异常值的整条线段
     # 数据划分
     data = getData()
     # 在粗糙路径数据集中两两配对寻找边缘路径
     print("---------------------------------数据读取完成，进入划分模块---------------------------------")
-    for item in data:
+    for number, item in enumerate(data):
         for i in range(len(item[0])-1):
             L_i = [item[0][i], item[0][i + 1]]  # 取粗线段中的线段
+            CL_j[number] = L_i
             for j in range(len(item[0])-1):
                 L_j = [item[0][j], item[0][j + 1]]  # 取粗线段中的线段
                 if (L_i[0] == L_j[0]) and L_i[1] == L_j[1]:  # 寻找两个data几何中不相同的两条路径 L_i_l,L_j_l中存放的是粗线段的片段和对应的精细化片段
@@ -51,9 +52,8 @@ if __name__ == "__main__":
                         """
                         l_i = item[1][item[0].index(L_i[0]):item[0].index(L_i[1]) + 1]
                         l_j = item[1][item[0].index(L_j[0]):item[0].index(L_j[1]) + 1]
-                        CL_i.append(l_j)
-                        CL_j.append(l_i)
-
+                        CL_i[number] = l_j
+                        #CL_j[j] = l_i
                     else:
                         """
                         计算的为每个粗分区对应的细分区的所有点
@@ -66,18 +66,24 @@ if __name__ == "__main__":
                                 l_j = [array_2[j], array_2[j + 1]]  # 取粗线段中的线段
                                 # 计算dist(l_i, l_j)
                                 if table_1(0, 0, 0).dist(l_i, l_j) <= D:
-                                    CL_i.append(l_j)   # insert l_i into CL(l_j) and l_j into CL(l_i)
-                                    CL_j.append(l_i)
+                                    CL_i[number] = l_j
+
+    print("线段与数字对应的坐标为")
+    print(CL_j)
+    print("线段对应的靠近的线段")
+    print(CL_i)
+
     """
     Detection Phase
     F 表示精细划分数据集
     """
     print("----------------------------detection------------------------------")
     F = data  # the set of fine t-partition
-    for TR_i in F:
-        for TR_j in F:
+    for i, TR_i in enumerate(F):
+        for j, TR_j in enumerate(F):
+            print('求解轨迹'+str(i)+'和轨迹'+str(j))
             if TR_i[1] == TR_j[1]:  # 寻找两个data几何中不相同的两条路径 L_i_l,L_j_l中存放的是粗线段的片段和对应的精细化片段
-                pass
+                continue
 
             for i in range(len(TR_i[1])-1):
                 l_i = [TR_i[0][i], TR_i[0][i + 1]]
@@ -86,17 +92,13 @@ if __name__ == "__main__":
                 # judge
                 if math.ceil(crt_value * table_1(TR_i[1], TR_j[1], data).adj(l_i)) <= math.ceil((1 - p)*len(l_i)):  # 判断是否为异常值
                     outlying.append(l_i)
+                    print(l_i)
 
-    for TR_i in data:
-        if table_1(0,0,0).Ofrac(TR_i) >= F:
+        if table_1(TR_i, 0, 0).Ofrac(outlying) >= F:
             # Output TR_i with its outlying fine t-partitions:
             outlying_fine.append(TR_i)
-
-    print("------------------outlying---------------------------")
-    print(outlying)
-    print("------------------outlying_fine---------------------------")
-    print(outlying_fine)
-
+            print(outlying_fine)
+        print('----------------next-------------------------')
     # end
 
 
