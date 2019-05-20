@@ -2,9 +2,10 @@
 轨迹异常值检测
 """
 import math
-from table_1 import dist, adj, Ofrac, CTR
-from 细粒度划分 import lower_bounds_dist, upper_bounds_dist
-from 读取数据 import getData
+
+from table_1 import table_1
+from fine import lower_bounds_dist, upper_bounds_dist
+from read_data import getData
 
 
 if __name__ == "__main__":
@@ -12,7 +13,7 @@ if __name__ == "__main__":
     数据划分部分
     """
     # 定义超参
-    D = 85
+    D = 55
     p = 0.95
     F = 0.2
     CL_i = []  # 存放的是一个片段，不是一个点
@@ -64,7 +65,7 @@ if __name__ == "__main__":
                             for j in range(len(array_2) - 1):
                                 l_j = [array_2[j], array_2[j + 1]]  # 取粗线段中的线段
                                 # 计算dist(l_i, l_j)
-                                if dist(l_i, l_j) <= D:
+                                if table_1(0, 0, 0).dist(l_i, l_j) <= D:
                                     CL_i.append(l_j)   # insert l_i into CL(l_j) and l_j into CL(l_i)
                                     CL_j.append(l_i)
     """
@@ -72,19 +73,29 @@ if __name__ == "__main__":
     F 表示精细划分数据集
     """
     print("----------------------------detection------------------------------")
-    # count math.ceil(CTR(l_i,D))by using CL_i
-    F = data[1]  # the set of fine t-partition
-    for l_i in F:
-        # count CRT(l_i,D)
-        crt_value = abs(CTR(l_i, D))
-        # judge
-        if math.ceil(crt_value*adj(l_i)) <= math.ceil((1-p)*len(l_i)):  # 判断是否为异常值
-            outlying.append(l_i)
+    F = data  # the set of fine t-partition
+    for TR_i in F:
+        for TR_j in F:
+            if TR_i[1] == TR_j[1]:  # 寻找两个data几何中不相同的两条路径 L_i_l,L_j_l中存放的是粗线段的片段和对应的精细化片段
+                pass
 
-    # Output TR_i with its outlying fine t-partitions:
-    for TR_i in data[1]:
-        if Ofrac(TR_i) >= F:
+            for i in range(len(TR_i[1])-1):
+                l_i = [TR_i[0][i], TR_i[0][i + 1]]
+                # count CRT(l_i,D)
+                crt_value = len(table_1(TR_i[1], TR_j[1], data).CTR(l_i, D))
+                # judge
+                if math.ceil(crt_value * table_1(TR_i[1], TR_j[1], data).adj(l_i)) <= math.ceil((1 - p)*len(l_i)):  # 判断是否为异常值
+                    outlying.append(l_i)
+
+    for TR_i in data:
+        if table_1(0,0,0).Ofrac(TR_i) >= F:
+            # Output TR_i with its outlying fine t-partitions:
             outlying_fine.append(TR_i)
+
+    print("------------------outlying---------------------------")
+    print(outlying)
+    print("------------------outlying_fine---------------------------")
+    print(outlying_fine)
 
     # end
 

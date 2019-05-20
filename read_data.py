@@ -1,7 +1,7 @@
 import scipy.io
 import numpy as np
 
-from 粗粒度划分 import mini_value, Coarse_grained_partition
+from coarse import mini_value, Coarse_grained_partition
 
 """
 FSC 2019/05/11 10:29:23

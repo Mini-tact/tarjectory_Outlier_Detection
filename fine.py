@@ -1,8 +1,7 @@
 from calculate_angle import Calculate
 from define import distance_between_T_Partitions
-from table_1 import dist
 from table_2 import min_vertical, max_l_vertical, minlen, max_angle
-from 其他函数 import computer_point
+from other import computer_point
 import math
 
 

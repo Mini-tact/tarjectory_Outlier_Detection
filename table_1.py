@@ -1,8 +1,8 @@
 from calculate_angle import Point
 from define import distance_between_T_Partitions
 
-class table_2():
-    def __init__(self, TR_i, TR_j,data):
+class table_1():
+    def __init__(self, TR_i, TR_j, data):
         self.TR_i = TR_i
         self.TR_j = TR_j
         self.data = data
@@ -22,7 +22,7 @@ class table_2():
         weight_angle = 1 / 3
         return dbtp.perpendicular()*weight_vectical+dbtp.paraller()*weight_parael+dbtp.angle_distance()*weight_angle
 
-    def CP(self,TR_i , L_j, D):
+    def CP(self,TR_j, l_j, D):
         """
         求解：TR_i中小于距离D分区的集合
         分区来自L_j属于TR_j,其中
@@ -33,14 +33,14 @@ class table_2():
         :return:TR_i中小于距离D分区的集合
         """
         set = []  # 存储TR_i中小于距离D分区的集合
-
-        for i in range(len(TR_i) - 1):
-            L_i = [TR_i[0][i], TR_i[0][i + 1]]  # 取粗线段中的线段
-            if self.dist(L_i, L_j) < D:
-                set.append(L_i)
+        print(TR_j)
+        for i in range(len(TR_j) - 1):
+            l_i = [self.TR_j[i], self.TR_j[i + 1]]
+            if self.dist(l_i, l_j) < D:
+                set.append(l_i)
         return set
 
-    def CTR(self,TR_i, L_j, D):
+    def CTR(self,L_j, D):
         """
         定义一： 定义什么是相互靠经的轨迹--所有L_i属于CP(TR_i, L_j, D)的所有长度len(L_i)大于len(L_j)
         :param L_i:
@@ -48,14 +48,13 @@ class table_2():
         :return:
         """
         array = []  # the set of trajectories close to L_i
-        set = self.CP(TR_i, L_j, D)
+        set = self.CP(self.TR_j, L_j, D)
 
-        len_i = 0.0
-        for l_i in set:
-            len_i += Point(l_i[0][0], l_i[0][1], l_i[1][0], l_i[1][1]).length()
         len_j = Point(L_j[0][0], L_j[0][1], L_j[1][0], L_j[1][1]).length()
-        if len_i >= len_j:
-            array.append(L_j)  #
+        for l_i in  set:
+            len_i = Point(l_i[0][0], l_i[0][1], l_i[1][0], l_i[1][1]).length()
+            if len_i >= len_j:
+                array.append(l_i)  #
         return array
 
 
@@ -67,36 +66,22 @@ class table_2():
         """
         array = []
         for TR_j in self.data:
-            item = self.CP(TR_j, L_i, 55)
+            item = self.CP(TR_j[1], L_i, 55)
             array.append(item)
-
-        # 去重  交集
-        list(set(array))
         return len(array)
 
     def adj(self, L_i):
-        data = list(set(self.data)) # 去重
-
         sum = 0.0
-        for L_j in data:
-            sum += self.density(L_j)
+        for len, TR_j in enumerate(self.data):
+            for i,_ in enumerate(TR_j[1]):
+                L_j = [TR_j[1][i], TR_j[1][i + 1]]
+                sum += self.density(L_j)
 
-        density_j = sum/len(data)
-
+        density_j = sum/len
         return density_j / self.density(L_i)
 
-    def OP(self,TR_i, D = 55, p = 0.95):
-        set = []  # 存储TR_i中小于距离D分区的集合
-
-        for i in range(len(TR_i) - 1):
-            L_i = [TR_i[0][i], TR_i[0][i + 1]]  # 取粗线段中的线段
-            if self.dist(L_i, L_j) >= D:
-                set.append(L_i)
-        return set
-
-
     def Ofrac(self, TR_i):
-        sum=0.0
+        sum = 0.0
         for item in self.OP(TR_i, D=55, p=0.95):
             sum += Point(item[0][0], item[0][1], item[1][0], item[1][1]).length()
         sum_2 = 0.0

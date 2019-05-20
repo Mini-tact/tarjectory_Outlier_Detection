@@ -1,5 +1,5 @@
 from calculate_angle import Point, Calculate
-from 其他函数 import computer_point
+from other import computer_point
 
 def max_l_vertical(L_i, fine):
     """

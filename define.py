@@ -1,5 +1,5 @@
 from calculate_angle import Calculate, Point
-from 其他函数 import computer_point
+from other import computer_point
 import math
 
 class distance_between_T_Partitions():
@@ -63,9 +63,9 @@ class distance_between_T_Partitions():
         angle = Calculate(self.s_i, self.e_i, self.s_j, self.e_j).cos()
         if angle > 0:
             # 角度在0~90之间
-            return L_j*math.sqrt(1-math.pow(angle, 2))  # ||L_j*sin||
+            angle = angle - pow(10,-10)   #防止数据溢出
+            return L_j*math.sqrt(1.0000000-math.pow(angle, 2))# ||L_j*sin||
         else:
-            # 角度在90~180之间
             return L_j
 
 
