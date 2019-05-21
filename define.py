@@ -1,3 +1,4 @@
+#coding:utf-8
 from calculate_angle import Calculate, Point
 from other import computer_point
 import math
@@ -20,9 +21,6 @@ class distance_between_T_Partitions():
         self.s_j = s_j
         self.e_j = e_j
 
-
-
-
     def perpendicular(self):
         """
         计算垂直距离
@@ -37,17 +35,8 @@ class distance_between_T_Partitions():
         L_j在L_i上的映射点到L_i 2个端点的距离的最小值
         :return:
         """
-        #computer_point(self.s_i, self.e_i).Perpendicular_to_a_point(self.s_j)  # 计算s_j在Li上的垂线
-        #computer_point(self.s_i, self.e_i).Perpendicular_to_a_point(self.e_j)  # 计算e_j在Li上的垂线
-        # cosa*对边等于 映射点到点的距离
-
-        # L_i[0], L_i[1], L_j[0], L_j[1]
-        #Calculate(L_i[0], L_i[1], L_j[0], L_j[1]).cos()
-        #s_j_cos_ei = Calculate(self.e_i, self.s_j, self.e_i, self.s_i).cos()*Point(self.e_i[0], self.e_i[1], self.s_j[0],self.s_j[1]).length()
         s_j_cos_si = Calculate(self.s_i, self.s_j, self.s_i, self.e_i).cos() * Point(self.s_i[0], self.s_i[1],self.s_j[0], self.s_i[1]).length()
-
         e_j_cos_ei = Calculate(self.e_i, self.e_j, self.e_i, self.s_i).cos()*Point(self.e_i[0], self.e_i[1], self.e_j[0],self.e_j[1]).length()
-        #e_j_cos_si = Calculate(self.s_i, self.e_j, self.s_i, self.s_i).cos() * Point(self.s_i[0], self.s_i[1],self.e_j[0],self.s_i[1]).length()
 
         if s_j_cos_si > e_j_cos_ei:
             return e_j_cos_ei
@@ -60,7 +49,10 @@ class distance_between_T_Partitions():
         :return:
         """
         L_j = Point(self.s_j[0], self.s_j[1], self.e_j[0], self.e_j[1]).length()
+        # print('------angle_distance----------')
+        # print(self.s_i, self.e_i, self.s_j, self.e_j)
         angle = Calculate(self.s_i, self.e_i, self.s_j, self.e_j).cos()
+
         if angle > 0:
             # 角度在0~90之间
             angle = angle - pow(10,-10)   #防止数据溢出

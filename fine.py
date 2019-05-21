@@ -1,3 +1,4 @@
+#coding:utf-8
 from calculate_angle import Calculate
 from define import distance_between_T_Partitions
 from table_2 import min_vertical, max_l_vertical, minlen, max_angle

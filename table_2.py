@@ -1,3 +1,4 @@
+#coding:utf-8
 from calculate_angle import Point, Calculate
 from other import computer_point
 

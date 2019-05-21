@@ -1,3 +1,4 @@
+#coding:utf-8
 from calculate_angle import Point
 from define import distance_between_T_Partitions
 
@@ -60,35 +61,41 @@ class table_1():
         return array
 
 
-    def density(self, L_j):
+    def density(self, L_j, CL, CL_index):
         """
         L_i的密度
         :param L_i:
         :return:
         """
-        array = []
-        for TR_i in self.data:
-            item = self.CP(TR_i[1], L_j, 55)
-            array.append(item)
-        return len(array)
+        # array = []
+        # for TR_i in self.data:
+        #     item = self.CP(TR_i[1], L_j, 55)
+        #     array.append(item)
+        # return len(array)
+        for i, j in enumerate(CL_index):
+            if L_j == j:
+                return len(CL[i])
+            else:
+                return 1
 
-    def adj(self, L_i):
+    def adj(self, L_i, CL_i, CL_j, CL_i_index, CL_j_index):
         sum = 0.0
         for length, TR_j in enumerate(self.data):
             for i in range(len(TR_j[1])-1):
                 L_j = [TR_j[1][i], TR_j[1][i + 1]]
-                sum += self.density(L_j)
+                sum += self.density(L_j, CL_i, CL_i_index)
 
         density_j = sum/length
-        return density_j / self.density(L_i)
+        return density_j / self.density(L_i, CL_j, CL_j_index)
 
     def Ofrac(self, TR_i):
         sum = 0.0
         for item in TR_i:
             sum += Point(item[0][0], item[0][1], item[1][0], item[1][1]).length()
         sum_2 = 0.0
-        for item in self.TR_i:
-             sum += Point(item[0][0], item[0][1], item[1][0], item[1][1]).length()
+        for it in range(len(self.TR_i[1])-1):
+             sum_2 += Point(self.TR_i[1][it][0], self.TR_i[1][it][1], self.TR_i[1][it+1][0], self.TR_i[1][it+1][1]).length()
+
         return sum/sum_2
 
 

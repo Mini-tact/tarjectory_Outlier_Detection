@@ -1,3 +1,4 @@
+#coding:utf-8
 import math
 import numpy as np
 
@@ -49,8 +50,8 @@ class Calculate(object):
 
     def cos(self):
         cos = self.Vector_multiplication()/self.the_product_of_mold()
-        if cos < 0:  # 求互余角
-            cos = - math.sqrt(1 - math.pow(cos, 2))
+        if cos < 0:  # 求互补角
+            cos = - cos
         return cos
 
     def angle(self):

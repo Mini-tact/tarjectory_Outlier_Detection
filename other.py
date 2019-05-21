@@ -1,3 +1,4 @@
+#coding:utf-8
 import math
 class computer_point():
     def __init__(self, s, e):
@@ -24,6 +25,9 @@ class computer_point():
         :param point: 点
         :return: 返回点到直线的距离
         """
+        if point == 0:
+            point=[0, 0]
+        #print("the point is ------" + str(point))
         k, b = self.define_a_line()
         return (-k*point[0] + point[1]-b)/math.sqrt(math.pow(k, 2)+1)
 

@@ -1,12 +1,15 @@
+#coding:utf-8
 import scipy.io
-
+import numpy as np
 from coarse import mini_value, Coarse_grained_partition
+import time
 
 """
 FSC 2019/05/11 10:29:23
 """
+
 def getData():
-    f = open('cross.mat', 'rb')
+    f = open('labomni.mat', 'rb')
     mdict = scipy.io.loadmat(f)
     train_data = mdict['tracks']  # TR
     # 对数据存储形式进行改变，形式为；每条轨迹，每条轨迹点的横纵坐标
@@ -16,7 +19,7 @@ def getData():
         for x, y in zip(tarjectory[0][0], tarjectory[0][1]):
             tj.append([x, y])
         tarjectorise.append(tj)
-
+    tarjectorise = np.array(tarjectorise)
     # 对粗粒度进行划分
     c_all = []  # 存储的是所有路径粗分区的集合和精细分区
     for item in tarjectorise:  # 对路径信息进行遍历
